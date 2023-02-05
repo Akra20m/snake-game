@@ -7,6 +7,44 @@ const tileSize = canvas.width / tileCount;
 const objectSize = tileSize - 2;
 let snakeHeadX = 10;
 let snakeHeadY = 10;
+let snakeXSpeed = 0;
+let snakeYSpeed = 0;
+
+document.addEventListener("keydown", (event) => {
+  if (event.code == "ArrowUp") {
+    if (snakeYSpeed == 1) {
+      return;
+    }
+    snakeXSpeed = 0;
+    snakeYSpeed = -1;
+  }
+  if (event.code == "ArrowDown") {
+    if (snakeYSpeed == -1) {
+      return;
+    }
+    snakeXSpeed = 0;
+    snakeYSpeed = 1;
+  }
+  if (event.code == "ArrowLeft") {
+    if (snakeXSpeed == 1) {
+      return;
+    }
+    snakeXSpeed = -1;
+    snakeYSpeed = 0;
+  }
+  if (event.code == "ArrowRight") {
+    if (snakeXSpeed == -1) {
+      return;
+    }
+    snakeXSpeed = 1;
+    snakeYSpeed = 0;
+  }
+});
+
+function changeSnakePosition() {
+  snakeHeadX = snakeHeadX + snakeXSpeed;
+  snakeHeadY = snakeHeadY + snakeYSpeed;
+}
 
 function clearScreen() {
   ctx.fillStyle = "black";
@@ -24,6 +62,7 @@ function drawSnake() {
 }
 
 function drawGame() {
+  changeSnakePosition();
   clearScreen();
 
   drawSnake();
