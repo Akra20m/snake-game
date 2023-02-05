@@ -16,7 +16,7 @@ let snakeHeadX = 10;
 let snakeHeadY = 10;
 let snakeXSpeed = 0;
 let snakeYSpeed = 0;
-let snakeTailLength = 2;
+let snakeTailLength = 200;
 let snakeTailParts = [];
 let appleX = 4;
 let appleY = 4;
@@ -94,10 +94,36 @@ function clearScreen() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+function createNewApple() {
+  let isAppleOnSnake = true;
+
+  while (isAppleOnSnake) {
+    // Generate random coordinates for the new apple
+    let newAppleX = Math.floor(Math.random() * tileCount);
+    let newAppleY = Math.floor(Math.random() * tileCount);
+
+    isAppleOnSnake = false;
+
+    // Check if the new apple is on the snake tail
+    for (let i = 0; i < snakeTailParts.length; i++) {
+      if (
+        newAppleX === snakeTailParts[i].x &&
+        newAppleY === snakeTailParts[i].y
+      ) {
+        isAppleOnSnake = true;
+        break;
+      }
+    }
+
+    // Place the new apple at the generated coordinates
+    appleX = newAppleX;
+    appleY = newAppleY;
+  }
+}
+
 function checkAppleCollision() {
   if (snakeHeadX == appleX && snakeHeadY == appleY) {
-    appleX = Math.floor(Math.random() * tileCount);
-    appleY = Math.floor(Math.random() * tileCount);
+    createNewApple();
     snakeTailLength++;
     score++;
   }
