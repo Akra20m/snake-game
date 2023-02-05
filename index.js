@@ -20,6 +20,7 @@ let snakeTailLength = 2;
 let snakeTailParts = [];
 let appleX = 4;
 let appleY = 4;
+let score = 0;
 
 document.addEventListener("keydown", (event) => {
   if (event.code == "ArrowUp") {
@@ -67,6 +68,7 @@ function checkAppleCollision() {
     appleX = Math.floor(Math.random() * tileCount);
     appleY = Math.floor(Math.random() * tileCount);
     snakeTailLength++;
+    score++;
   }
 }
 
@@ -102,6 +104,13 @@ function drawSnake() {
   );
 }
 
+function drawScore() {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "white";
+  ctx.textAlign = "right";
+  ctx.fillText("Score: " + score, canvas.width - 10, 20);
+}
+
 function drawGame() {
   changeSnakePosition();
   clearScreen();
@@ -110,6 +119,8 @@ function drawGame() {
 
   drawApple();
   drawSnake();
+  drawScore();
+
   setTimeout(drawGame, 1000 / FPS);
 }
 
