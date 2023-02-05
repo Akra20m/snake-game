@@ -9,6 +9,8 @@ let snakeHeadX = 10;
 let snakeHeadY = 10;
 let snakeXSpeed = 0;
 let snakeYSpeed = 0;
+let appleX = 4;
+let appleY = 4;
 
 document.addEventListener("keydown", (event) => {
   if (event.code == "ArrowUp") {
@@ -51,6 +53,18 @@ function clearScreen() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+function checkAppleCollision() {
+  if (snakeHeadX == appleX && snakeHeadY == appleY) {
+    appleX = Math.floor(Math.random() * tileCount);
+    appleY = Math.floor(Math.random() * tileCount);
+  }
+}
+
+function drawApple() {
+  ctx.fillStyle = "red";
+  ctx.fillRect(appleX * tileSize, appleY * tileSize, objectSize, objectSize);
+}
+
 function drawSnake() {
   ctx.fillStyle = "green";
   ctx.fillRect(
@@ -65,6 +79,9 @@ function drawGame() {
   changeSnakePosition();
   clearScreen();
 
+  checkAppleCollision();
+
+  drawApple();
   drawSnake();
   setTimeout(drawGame, 1000 / FPS);
 }
