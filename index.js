@@ -58,6 +58,37 @@ function changeSnakePosition() {
   snakeHeadY = snakeHeadY + snakeYSpeed;
 }
 
+function drawGameOver() {
+  ctx.fillStyle = "red";
+  ctx.font = "48px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2);
+}
+
+function isGameOver() {
+  if (snakeXSpeed == 0 && snakeYSpeed == 0) {
+    return false;
+  }
+  if (
+    snakeHeadX < 0 ||
+    snakeHeadY < 0 ||
+    snakeHeadX >= tileCount ||
+    snakeHeadY >= tileCount
+  ) {
+    //snake hit wall
+    return true;
+  }
+
+  //snake hit itself
+  for (const snakeTailPart of snakeTailParts) {
+    if (snakeTailPart.x == snakeHeadX && snakeTailPart.y == snakeHeadY) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function clearScreen() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -113,6 +144,12 @@ function drawScore() {
 
 function drawGame() {
   changeSnakePosition();
+
+  if (isGameOver()) {
+    drawGameOver();
+    return;
+  }
+
   clearScreen();
 
   checkAppleCollision();
